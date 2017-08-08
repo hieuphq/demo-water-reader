@@ -6,6 +6,7 @@
 package guidemo;
 
 import guidemo.helpers.XlsReader;
+import guidemo.models.WaterDetail;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -64,15 +65,15 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(filePathTextField)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 189, Short.MAX_VALUE)
                         .addComponent(loadFileButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(browserFileButton)))
+                        .addComponent(browserFileButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -89,14 +90,14 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap(211, Short.MAX_VALUE))
         );
 
-        loadFileButton.getAccessibleContext().setAccessibleName("Load File");
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFileButtonActionPerformed
         // TODO add your handling code here:
-        XlsReader.readXlsFile(currFileName);
+        WaterDetail[] data = XlsReader.readWaterInfo(currFileName, 2, 1);
+        
+        System.out.print(data);
     }//GEN-LAST:event_loadFileButtonActionPerformed
     
     private String currDirectoryPath;
