@@ -213,17 +213,20 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // Series
         List<Date> xData = new ArrayList<>();
-        List<Float> yNh3 = new ArrayList<>();
         List<Float> yNo2 = new ArrayList<>();
+        List<Float> tci = new ArrayList<>();
+        List<Float> tablet = new ArrayList<>();
         
         for (WaterDetail dt : data) {
             xData.add(dt.date);
-            yNh3.add(dt.nh3);
+            tci.add(dt.tciBRC);
+            tablet.add(dt.dosed);
             yNo2.add(dt.no2);
         }
                
-        chart.addSeries("NH3", xData, yNh3);
         chart.addSeries("NO2", xData, yNo2);
+        chart.addSeries("TCl-BRC", xData, tci);
+        chart.addSeries("Tablet", xData, tablet);
 
         // Show it
         JPanel chartView = new XChartPanel<XYChart>(chart);

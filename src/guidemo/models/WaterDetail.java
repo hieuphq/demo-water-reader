@@ -14,6 +14,13 @@ public class WaterDetail {
     public float temperature; // E
     public float nh3; // F
     public float no2; // G
+    public float umkd; // H
+    public float fn; //I
+    public float brc; //J
+    public float retTime; //K
+    public float krt; // L
+    public float krt20; // M
+    public float tciBRC; // N
     public float dosed; // O - 0.5 or empty
     
     public WaterDetail(Date date,

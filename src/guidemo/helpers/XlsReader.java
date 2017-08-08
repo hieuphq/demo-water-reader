@@ -95,6 +95,13 @@ public class XlsReader {
                     Cell tempCell = nextRow.getCell(4);
                     Cell nh3Cell = nextRow.getCell(5);
                     Cell no2Cell = nextRow.getCell(6);
+                    Cell umkdCell = nextRow.getCell(7);
+                    Cell fnCell = nextRow.getCell(8);
+                    Cell brcCell = nextRow.getCell(9);
+                    Cell retTimeCell = nextRow.getCell(10);
+                    Cell krtCell = nextRow.getCell(11);
+                    Cell krt20Cell = nextRow.getCell(12);
+                    Cell tciBRCCell = nextRow.getCell(13);
                     Cell tabletCell = nextRow.getCell(14);
 
                     if (canParseDate(dateCell)) {
@@ -105,9 +112,24 @@ public class XlsReader {
                         float nh3 = tryParseNumber(nh3Cell);
                         float no2 = tryParseNumber(no2Cell);
                         float tablet = tryParseNumber(tabletCell);
+                        float umkd = tryParseNumber(umkdCell);
+                        float fn = tryParseNumber(fnCell);
+                        float brc = tryParseNumber(brcCell);
+                        float retTime = tryParseNumber(retTimeCell);
+                        float krt = tryParseNumber(krtCell);
+                        float krt20 = tryParseNumber(krt20Cell);
+                        float tciBRC = tryParseNumber(tciBRCCell);
 
                         WaterDetail dt;
                         dt = new WaterDetail(date, tciIn, tciOut, temp, nh3, no2, tablet);
+                        dt.umkd = umkd;
+                        dt.fn = fn;
+                        dt.brc = brc;
+                        dt.retTime = retTime;
+                        dt.krt = krt;
+                        dt.krt20 = krt20;
+                        dt.tciBRC = tciBRC;
+                                
                         rs.add(dt);
                     }
                 }
@@ -134,6 +156,15 @@ public class XlsReader {
 
             if (type == CellType.NUMERIC) {
                 val = (float) cell.getNumericCellValue();
+            }
+            
+            if (type == CellType.FORMULA) {
+                
+                CellType cachedType = cell.getCachedFormulaResultTypeEnum();
+                if ( cachedType == CellType.NUMERIC) {
+                    val = (float) cell.getNumericCellValue();
+                }
+                
             }
         }
 
