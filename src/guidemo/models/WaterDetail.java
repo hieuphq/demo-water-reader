@@ -8,13 +8,13 @@ package guidemo.models;
 import java.util.Date;
 
 public class WaterDetail {
-    Date date; // B
-    float tciIn; // C
-    float tciOut; // D
-    float temperature; // E
-    float nh3; // F
-    float no2; // G
-    float dosed; // O - 0.5 or empty
+    public Date date; // B
+    public float tciIn; // C
+    public float tciOut; // D
+    public float temperature; // E
+    public float nh3; // F
+    public float no2; // G
+    public float dosed; // O - 0.5 or empty
     
     public WaterDetail(Date date,
             float tciIn,

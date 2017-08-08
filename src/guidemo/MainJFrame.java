@@ -7,9 +7,23 @@ package guidemo;
 
 import guidemo.helpers.XlsReader;
 import guidemo.models.WaterDetail;
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.knowm.xchart.style.Styler.LegendPosition;
 
 public class MainJFrame extends javax.swing.JFrame {
 
@@ -34,6 +48,12 @@ public class MainJFrame extends javax.swing.JFrame {
         filePathTextField = new javax.swing.JTextField();
         loadFileButton = new javax.swing.JButton();
         browserFileButton = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        dataTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        chartPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Read xls file");
@@ -58,16 +78,70 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        dataTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Date", "TCI_in", "TCLI_out", "Temp", "NH3-N", "NO2-N", "Tablet Dosed", "Selected"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(dataTable);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Reservior Data Entry", jPanel1);
+
+        chartPanel.setBackground(new java.awt.Color(204, 255, 255));
+        chartPanel.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Results", jPanel2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filePathTextField)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 189, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(loadFileButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(browserFileButton))
@@ -75,6 +149,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,7 +162,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loadFileButton)
                     .addComponent(browserFileButton))
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1))
         );
 
         pack();
@@ -96,27 +172,83 @@ public class MainJFrame extends javax.swing.JFrame {
     private void loadFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFileButtonActionPerformed
         // TODO add your handling code here:
         WaterDetail[] data = XlsReader.readWaterInfo(currFileName, 2, 1);
-        
-        System.out.print(data);
+
+        setDataToTable(data);
+
+        generateChart(data);
     }//GEN-LAST:event_loadFileButtonActionPerformed
-    
+
+    private void setDataToTable(WaterDetail[] data) {
+        DefaultTableModel model = (DefaultTableModel) this.dataTable.getModel();
+
+        if (model.getRowCount() > 0) {
+            for (int i = 0; i < model.getRowCount(); i++) {
+                model.removeRow(i);
+            }
+        }
+
+        for (WaterDetail dt : data) {
+            model.addRow(new Object[]{
+                dt.date,
+                dt.tciIn,
+                dt.tciOut,
+                dt.temperature,
+                dt.nh3,
+                dt.no2,
+                dt.dosed,
+                false
+            });
+        }
+    }
+
+    private void generateChart(WaterDetail[] data) {
+        // Create Chart
+        XYChart chart = new XYChartBuilder().width(800)
+                .height(600).title(getClass().getSimpleName())
+                .xAxisTitle("X").yAxisTitle("Y").build();
+
+        // Customize Chart
+        chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
+        chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
+
+        // Series
+        List<Date> xData = new ArrayList<>();
+        List<Float> yNh3 = new ArrayList<>();
+        List<Float> yNo2 = new ArrayList<>();
+        
+        for (WaterDetail dt : data) {
+            xData.add(dt.date);
+            yNh3.add(dt.nh3);
+            yNo2.add(dt.no2);
+        }
+               
+        chart.addSeries("NH3", xData, yNh3);
+        chart.addSeries("NO2", xData, yNo2);
+
+        // Show it
+        JPanel chartView = new XChartPanel<XYChart>(chart);
+        this.chartPanel.removeAll();
+        this.chartPanel.add(chartView, BorderLayout.CENTER);
+        this.chartPanel.validate();
+    }
+
     private String currDirectoryPath;
     private String currFileName;
     private void browserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserFileButtonActionPerformed
         // TODO add your handling code here:
-        
+
         JFileChooser fileChooser = new JFileChooser(currDirectoryPath);
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-            "XLSX Files", "xlsx", "xls");
+                "XLSX Files", "xlsx", "xls");
         fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(MainJFrame.this);
-        
+
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             this.currDirectoryPath = file.getParent();
             this.filePathTextField.setText(file.getAbsolutePath());
             this.currFileName = file.getAbsolutePath();
-       }
+        }
     }//GEN-LAST:event_browserFileButtonActionPerformed
 
     /**
@@ -156,8 +288,14 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browserFileButton;
+    private javax.swing.JPanel chartPanel;
+    private javax.swing.JTable dataTable;
     private javax.swing.JTextField filePathTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton loadFileButton;
     // End of variables declaration//GEN-END:variables
 }
