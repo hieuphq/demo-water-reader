@@ -25,6 +25,7 @@ import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
@@ -87,22 +88,15 @@ public class MainJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "TCI_in", "TCLI_out", "Temp", "NH3-N", "NO2-N", "Tablet Dosed", "Selected", "Inline"
+                "Date", "TCI_in", "TCLI_out", "Temp", "NH3-N", "NO2-N", "Tablet Dosed", "Selected"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, true, true
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(dataTable);
@@ -396,7 +390,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
         chart.addSeries("NO2", xData, yNo2);
         chart.addSeries("TCl-BRC", xData, tci);
-        chart.addSeries("Tablet", xData, tablet);
+        XYSeries seriesTablet = chart.addSeries("Tablet", xData, tablet);
+        seriesTablet.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
         // Show it
         JPanel chartView = new XChartPanel<XYChart>(chart);
