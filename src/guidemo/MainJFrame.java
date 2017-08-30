@@ -12,6 +12,7 @@ import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -56,6 +57,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
+        jButtonAdd = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         nitrificationChart = new javax.swing.JPanel();
@@ -105,15 +107,30 @@ public class MainJFrame extends javax.swing.JFrame {
             dataTable.getColumnModel().getColumn(0).setMinWidth(120);
         }
 
+        jButtonAdd.setText("Add");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1146, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1146, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonAdd)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Reservior Data Entry", jPanel1);
@@ -135,7 +152,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nitrificationChart, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(nitrificationChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -156,7 +173,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chrloraminChart, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(chrloraminChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -177,7 +194,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(forecastingChart, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(forecastingChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -198,7 +215,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(reticChart, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(reticChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -409,7 +426,7 @@ public class MainJFrame extends javax.swing.JFrame {
         seriesTablet.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
         // Show it
-        JPanel chartView = new XChartPanel<XYChart>(chart);
+        JPanel chartView = new XChartPanel<>(chart);
         this.nitrificationChart.removeAll();
         this.nitrificationChart.add(chartView, BorderLayout.CENTER);
         this.nitrificationChart.validate();
@@ -417,6 +434,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private String currDirectoryPath;
     private String currFileName;
+    private ArrayList<WaterDetail> detailArray = new ArrayList<>();
     private void browserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserFileButtonActionPerformed
         // TODO add your handling code here:
 
@@ -440,8 +458,34 @@ public class MainJFrame extends javax.swing.JFrame {
             generateChloramineChart(data);
             generateForecastingChart(data);
             generateReticChart(data);
+            
+            this.detailArray = new ArrayList<>(Arrays.asList(data));
         }
     }//GEN-LAST:event_browserFileButtonActionPerformed
+
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        // TODO add your handling code here:
+        
+        if (this.detailArray.size() > 0) {
+            WaterDetail newData = new WaterDetail(
+                    new Date(), 0, 0, 0, 0, 0, 0
+            );
+            this.detailArray.add(newData);
+            
+            WaterDetail[] newArray = this.detailArray.toArray(new WaterDetail[this.detailArray.size()]);
+            setDataToTable(newArray);
+            
+            this.dataTable.scrollRectToVisible(
+                    this.dataTable.getCellRect(
+                            this.dataTable.getRowCount() - 1, 0, true
+                    )
+            );
+//            generateNitrificationChart(newArray);
+//            generateChloramineChart(newArray);
+//            generateForecastingChart(newArray);
+//            generateReticChart(newArray);
+        }
+    }//GEN-LAST:event_jButtonAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -484,6 +528,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTable dataTable;
     private javax.swing.JTextField filePathTextField;
     private javax.swing.JPanel forecastingChart;
+    private javax.swing.JButton jButtonAdd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JPanel jPanel1;
