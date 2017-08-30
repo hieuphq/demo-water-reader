@@ -5,6 +5,8 @@
  */
 package guidemo.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WaterDetail {
@@ -45,5 +47,9 @@ public class WaterDetail {
                 tciIn, tciOut, temperature, nh3, no2, dosed);
     }
     
-    
+    public String getDateString() {
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String dateString = formatter.format(this.date);
+        return dateString;
+    }
 }
