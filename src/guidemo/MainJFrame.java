@@ -6,6 +6,7 @@
 package guidemo;
 
 import guidemo.helpers.XlsReader;
+import guidemo.models.PredictingWaterDetail;
 import guidemo.models.ReticEntry;
 import guidemo.models.WaterDetail;
 import java.awt.BorderLayout;
@@ -379,7 +380,7 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void generateReticChart(WaterDetail[] data) {
+    private void generateReticChart(ReticEntry[] data) {
         // Create Chart
         XYChart chart = new XYChartBuilder().width(800)
                 .height(600).title("Retic system behaviour")
@@ -391,16 +392,16 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // Series
         List<Date> xData = new ArrayList<>();
-        List<Float> yNH3 = new ArrayList<>();
+        List<Float> yNitrificationPotentialIndicator = new ArrayList<>();
         List<Float> yNO2 = new ArrayList<>();
 
-        for (WaterDetail dt : data) {
+        for (ReticEntry dt : data) {
             xData.add(dt.date);
-            yNH3.add(dt.nh3);
+            yNitrificationPotentialIndicator.add((float)dt.nitrificationPotentialIndicator);
             yNO2.add(dt.no2);
         }
 
-        chart.addSeries("NH3", xData, yNH3);
+        chart.addSeries("Nitrification Potential Indicator", xData, yNitrificationPotentialIndicator);
         chart.addSeries("NO2", xData, yNO2);
 
         // Show it
@@ -419,16 +420,27 @@ public class MainJFrame extends javax.swing.JFrame {
         // Customize Chart
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
         chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
-
+        
+        int index = data.length - 1;
+        
+        if (index < 0) {
+            return;
+        }
+        
+        PredictingWaterDetail[] predictingData = PredictingWaterDetail.calculateWaterDetail(data[index], 7);
+        
         // Series
         List<Date> xData = new ArrayList<>();
         List<Double> ytciBRC = new ArrayList<>();
+        List<Double> ytci = new ArrayList<>();
 
-        for (WaterDetail dt : data) {
+        for (PredictingWaterDetail dt : predictingData) {
             xData.add(dt.date);
             ytciBRC.add(dt.tclBRC);
+            ytci.add(dt.tcl);
         }
 
+        chart.addSeries("TCl", xData, ytci);
         chart.addSeries("TCl-BRC", xData, ytciBRC);
 
         // Show it
@@ -528,7 +540,7 @@ public class MainJFrame extends javax.swing.JFrame {
             generateNitrificationChart(data);
             generateChloramineChart(data);
             generateForecastingChart(data);
-            generateReticChart(data);
+            generateReticChart(reticData);
             
             this.detailArray = new ArrayList<>(Arrays.asList(data));
         }
