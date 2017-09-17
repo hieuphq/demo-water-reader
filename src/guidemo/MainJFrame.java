@@ -6,6 +6,7 @@
 package guidemo;
 
 import guidemo.helpers.XlsReader;
+import guidemo.models.ReticEntry;
 import guidemo.models.WaterDetail;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -53,11 +54,15 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         filePathTextField = new javax.swing.JTextField();
         browserFileButton = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        reticDataEntryTable = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         jButtonAdd = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableReticData = new javax.swing.JTable();
+        jButtonAddReticData = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         nitrificationChart = new javax.swing.JPanel();
@@ -95,7 +100,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,7 +123,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1146, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1292, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButtonAdd)
@@ -130,10 +135,53 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButtonAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Reservior Data Entry", jPanel1);
+        reticDataEntryTable.addTab("Reservior Data Entry", jPanel1);
+
+        jTableReticData.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Date", "Total Chlorine", "Temperature", "NH3-N", "Nitrification Potential Indicator"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTableReticData);
+
+        jButtonAddReticData.setText("Add");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(1211, Short.MAX_VALUE)
+                .addComponent(jButtonAddReticData)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonAddReticData)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE))
+        );
+
+        reticDataEntryTable.addTab("Retic Data Entry", jPanel2);
 
         jPanel6.setLayout(new java.awt.GridLayout(2, 0));
 
@@ -145,14 +193,14 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nitrificationChart, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addComponent(nitrificationChart, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nitrificationChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(nitrificationChart, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -173,7 +221,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chrloraminChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(chrloraminChart, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -187,14 +235,14 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(forecastingChart, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addComponent(forecastingChart, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(forecastingChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(forecastingChart, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -208,20 +256,20 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(reticChart, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addComponent(reticChart, javax.swing.GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(reticChart, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addComponent(reticChart, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel6.add(jPanel7);
 
-        jTabbedPane1.addTab("Diagrams", jPanel6);
+        reticDataEntryTable.addTab("Diagrams", jPanel6);
 
         javax.swing.GroupLayout jPanelLogoLayout = new javax.swing.GroupLayout(jPanelLogo);
         jPanelLogo.setLayout(jPanelLogoLayout);
@@ -238,7 +286,7 @@ public class MainJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(reticDataEntryTable)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -268,7 +316,7 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(browserFileButton))
                     .addComponent(jPanelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(reticDataEntryTable))
         );
 
         pack();
@@ -306,6 +354,27 @@ public class MainJFrame extends javax.swing.JFrame {
                 dt.no2,
                 dt.dosed,
                 false
+            });
+        }
+    }
+    
+    private void setDataToReticTable(ReticEntry[] data) {
+        DefaultTableModel model = (DefaultTableModel) this.jTableReticData.getModel();
+
+        if (model.getRowCount() > 0) {
+            for (int i = 0; i < model.getRowCount(); i++) {
+                model.removeRow(i);
+            }
+        }
+
+        for (ReticEntry dt : data) {
+            model.addRow(new Object[]{
+                dt.getDateString(),
+                dt.totalChlorine,
+                dt.temperature,
+                dt.nh3,
+                dt.no2,
+                dt.nitrificationPotentialIndicator
             });
         }
     }
@@ -353,11 +422,11 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // Series
         List<Date> xData = new ArrayList<>();
-        List<Float> ytciBRC = new ArrayList<>();
+        List<Double> ytciBRC = new ArrayList<>();
 
         for (WaterDetail dt : data) {
             xData.add(dt.date);
-            ytciBRC.add(dt.tciBRC);
+            ytciBRC.add(dt.tclBRC);
         }
 
         chart.addSeries("TCl-BRC", xData, ytciBRC);
@@ -381,7 +450,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         // Series
         List<Date> xData = new ArrayList<>();
-        List<Float> yKrt20 = new ArrayList<>();
+        List<Double> yKrt20 = new ArrayList<>();
 
         for (WaterDetail dt : data) {
             xData.add(dt.date);
@@ -410,20 +479,20 @@ public class MainJFrame extends javax.swing.JFrame {
         // Series
         List<Date> xData = new ArrayList<>();
         List<Float> yNo2 = new ArrayList<>();
-        List<Float> tci = new ArrayList<>();
-        List<Float> tablet = new ArrayList<>();
+        List<Double> tcl = new ArrayList<>();
+//        List<Float> tablet = new ArrayList<>();
 
         for (WaterDetail dt : data) {
             xData.add(dt.date);
-            tci.add(dt.tciBRC);
-            tablet.add(dt.dosed);
+            tcl.add(dt.tclBRC);
+            //tablet.add(dt.dosed);
             yNo2.add(dt.no2);
         }
 
         chart.addSeries("NO2", xData, yNo2);
-        chart.addSeries("TCl-BRC", xData, tci);
-        XYSeries seriesTablet = chart.addSeries("Tablet", xData, tablet);
-        seriesTablet.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
+        chart.addSeries("TCl-BRC", xData, tcl);
+//        XYSeries seriesTablet = chart.addSeries("Tablet", xData, tablet);
+//        seriesTablet.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
 
         // Show it
         JPanel chartView = new XChartPanel<>(chart);
@@ -451,9 +520,11 @@ public class MainJFrame extends javax.swing.JFrame {
             this.currFileName = file.getAbsolutePath();
 
             // Load file
-            WaterDetail[] data = XlsReader.readWaterInfo(currFileName, 2, 1);
+            WaterDetail[] data = XlsReader.readWaterInfo(currFileName, 3, 0);
+            ReticEntry[] reticData = XlsReader.readReticInfo(currFileName, 3, 0);
 
             setDataToTable(data);
+            setDataToReticTable(reticData);
             generateNitrificationChart(data);
             generateChloramineChart(data);
             generateForecastingChart(data);
@@ -468,7 +539,7 @@ public class MainJFrame extends javax.swing.JFrame {
         
         if (this.detailArray.size() > 0) {
             WaterDetail newData = new WaterDetail(
-                    new Date(), 0, 0, 0, 0, 0, 0
+                    new Date(), 0, 0, 0, 0, 0, ""
             );
             this.detailArray.add(newData);
             
@@ -529,18 +600,22 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField filePathTextField;
     private javax.swing.JPanel forecastingChart;
     private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonAddReticData;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanelLogo;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableReticData;
     private javax.swing.JPanel nitrificationChart;
     private javax.swing.JPanel reticChart;
+    private javax.swing.JTabbedPane reticDataEntryTable;
     // End of variables declaration//GEN-END:variables
 }
