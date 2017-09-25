@@ -5,6 +5,9 @@
  */
 package guidemo;
 
+import guidemo.helpers.DateCellEditor;
+import guidemo.helpers.DateCellRender;
+import guidemo.helpers.DateTimeTableEditor;
 import guidemo.helpers.XlsReader;
 import guidemo.models.PredictingWaterDetail;
 import guidemo.models.ReticEntry;
@@ -23,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XChartPanel;
@@ -41,6 +45,7 @@ public class MainJFrame extends javax.swing.JFrame {
         this.currDirectoryPath = "";
         initComponents();
         initLogo();
+        initTableEditor();
     }
 
     /**
@@ -101,7 +106,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -110,7 +115,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(dataTable);
         if (dataTable.getColumnModel().getColumnCount() > 0) {
-            dataTable.getColumnModel().getColumn(0).setMinWidth(120);
+            dataTable.getColumnModel().getColumn(0).setMinWidth(250);
         }
 
         jButtonAdd.setText("Add");
@@ -336,6 +341,17 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jLabelLogo.setIcon(new ImageIcon(scaledIcon));
     }
     
+    private void initTableEditor() {
+        TableColumn dateColumn = this.dataTable.getColumnModel().getColumn(0);
+        DateTimeTableEditor editor = new DateTimeTableEditor();
+        dateColumn.setCellEditor(editor);
+       	dateColumn.setCellRenderer(new DateCellRender());
+        
+        TableColumn dateRedicColumn = this.jTableReticData.getColumnModel().getColumn(0);
+        dateRedicColumn.setCellEditor(new DateTimeTableEditor());
+       	dateRedicColumn.setCellRenderer(new DateCellRender());
+    }
+    
     private void setDataToTable(WaterDetail[] data) {
         DefaultTableModel model = (DefaultTableModel) this.dataTable.getModel();
 
@@ -347,7 +363,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         for (WaterDetail dt : data) {
             model.addRow(new Object[]{
-                dt.getDateString(),
+                dt.date,
                 dt.tciIn,
                 dt.tciOut,
                 dt.temperature,
@@ -370,7 +386,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         for (ReticEntry dt : data) {
             model.addRow(new Object[]{
-                dt.getDateString(),
+                dt.date,
                 dt.totalChlorine,
                 dt.temperature,
                 dt.nh3,

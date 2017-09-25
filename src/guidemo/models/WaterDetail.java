@@ -16,7 +16,7 @@ public class WaterDetail {
     public float temperature; // D
     public float nh3; // E
     public float no2; // F
-    public String dosed; // G - 0.5 or empty
+    public boolean dosed; // G - 0.5 or empty
     
     public double umkd; // -0.0008*Temp^3+0.0419*Temp^2-0.6253*Temp+3.9132+0.23
     public double kn; // +(NH3)- TCL_out/5
@@ -39,7 +39,10 @@ public class WaterDetail {
         this.temperature = temperature;
         this.nh3 = nh3;
         this.no2 = no2;
-        this.dosed = dosed;
+        
+        String lowerStr = dosed.toLowerCase();
+        
+        this.dosed = "yes".equals(lowerStr);
     }
     
     public void calculateValue() {
