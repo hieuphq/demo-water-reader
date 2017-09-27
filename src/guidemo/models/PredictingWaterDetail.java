@@ -42,6 +42,22 @@ public class PredictingWaterDetail {
             float brc = (float) (umkd * ( detail.nh3 - tcl / 5) / ((detail.nh3 - tcl / 5) + 0.18));
             float tclBRC = tcl - brc;
             
+            if(Float.isNaN(tcl)) {
+                tcl = 0;
+            }
+            
+            if(Float.isNaN(umkd)) {
+                umkd = 0;
+            }
+            
+            if(Float.isNaN(brc)) {
+                brc = 0;
+            }
+            
+            if(Float.isNaN(tclBRC)) {
+                tclBRC = 0;
+            }
+            
             Date newDate = PredictingWaterDetail.addDays(detail.date, index);
             
             PredictingWaterDetail data = new PredictingWaterDetail(newDate, tcl, umkd, brc, tclBRC);
