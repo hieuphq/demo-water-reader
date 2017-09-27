@@ -16,14 +16,21 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -155,16 +162,31 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Double.class
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane2.setViewportView(jTableReticData);
+        if (jTableReticData.getColumnModel().getColumnCount() > 0) {
+            jTableReticData.getColumnModel().getColumn(0).setMinWidth(250);
+        }
 
         jButtonAddReticData.setText("Add");
+        jButtonAddReticData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddReticDataActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -346,10 +368,85 @@ public class MainJFrame extends javax.swing.JFrame {
         DateTimeTableEditor editor = new DateTimeTableEditor();
         dateColumn.setCellEditor(editor);
        	dateColumn.setCellRenderer(new DateCellRender());
+        DefaultTableModel model = (DefaultTableModel)this.dataTable.getModel();
+        model.addTableModelListener((TableModelEvent e) -> {
+            
+            if (e.getType() == 1){
+                return;
+            }
+            
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            DefaultTableModel model1 = (DefaultTableModel)e.getSource();
+            String columnName = model1.getColumnName(column);
+            
+            WaterDetail wd = this.detailArray.get(row);
+            
+            switch(column) {
+                case 0: //Date
+                    String tempDate = (String)model1.getValueAt(row, column);
+                    wd.date = parseDateFromString(tempDate, "dd-MM-yyyy HH:mm");
+                    break;
+                case 1: //Date
+                    wd.tciIn = (float) model1.getValueAt(row, column);
+                    break;
+                case 2: //Date
+                    wd.tciOut = (float) model1.getValueAt(row, column);
+                    break;
+                case 3: //Date
+                    wd.temperature = (float) model1.getValueAt(row, column);
+                    break;
+                case 4: //Date
+                    wd.nh3 = (float) model1.getValueAt(row, column);
+                    break;
+                case 5: //Date
+                    wd.no2 = (float) model1.getValueAt(row, column);
+                    break;
+                case 6: //Date
+                    wd.dosed = (boolean) model1.getValueAt(row, column);
+                    break;
+            }
+            
+            wd.calculateValue();
+            this.detailArray.set(row, wd);
+        });
         
         TableColumn dateRedicColumn = this.jTableReticData.getColumnModel().getColumn(0);
         dateRedicColumn.setCellEditor(new DateTimeTableEditor());
        	dateRedicColumn.setCellRenderer(new DateCellRender());
+        DefaultTableModel redicModel = (DefaultTableModel)this.dataTable.getModel();
+        redicModel.addTableModelListener((TableModelEvent e) -> {
+            if (e.getType() == 1){
+                return;
+            }
+            
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            DefaultTableModel model1 = (DefaultTableModel)e.getSource();
+            String columnName = model1.getColumnName(column);
+            
+            ReticEntry re = this.reticEntryArray.get(row);
+            
+            switch(column) {
+                case 0: //Date
+                    String tempDate = (String)model1.getValueAt(row, column);
+                    re.date = parseDateFromString(tempDate, "dd-MM-yyyy HH:mm");
+                    break;
+                case 1: //Date
+                    re.totalChlorine = (float) model1.getValueAt(row, column);
+                    break;
+                case 2: //Date
+                    re.temperature = (float) model1.getValueAt(row, column);
+                    break;
+                case 3: //Date
+                    re.nh3 = (float) model1.getValueAt(row, column);
+                    break;
+            }
+            
+            re.calculateValue();
+            this.reticEntryArray.set(row, re);
+        });
+        
     }
     
     private void setDataToTable(WaterDetail[] data) {
@@ -372,6 +469,20 @@ public class MainJFrame extends javax.swing.JFrame {
                 dt.dosed,
                 false
             });
+        }
+        
+    }
+    
+    private Date parseDateFromString(String dateStr, String format) {
+        String startDateString = dateStr;
+
+        // This object can interpret strings representing dates in the format MM/dd/yyyy
+        DateFormat df = new SimpleDateFormat(format); 
+        
+        try {
+            return df.parse(startDateString);
+        } catch (ParseException ex) {
+            return new Date();
         }
     }
     
@@ -532,6 +643,8 @@ public class MainJFrame extends javax.swing.JFrame {
     private String currDirectoryPath;
     private String currFileName;
     private ArrayList<WaterDetail> detailArray = new ArrayList<>();
+    private ArrayList<ReticEntry> reticEntryArray = new ArrayList<>();
+    
     private void browserFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserFileButtonActionPerformed
         // TODO add your handling code here:
 
@@ -559,11 +672,14 @@ public class MainJFrame extends javax.swing.JFrame {
             generateReticChart(reticData);
             
             this.detailArray = new ArrayList<>(Arrays.asList(data));
+            this.reticEntryArray = new ArrayList<>(Arrays.asList(reticData));
         }
     }//GEN-LAST:event_browserFileButtonActionPerformed
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         // TODO add your handling code here:
+        
+        DefaultTableModel model = (DefaultTableModel) this.dataTable.getModel();
         
         if (this.detailArray.size() > 0) {
             WaterDetail newData = new WaterDetail(
@@ -571,8 +687,20 @@ public class MainJFrame extends javax.swing.JFrame {
             );
             this.detailArray.add(newData);
             
-            WaterDetail[] newArray = this.detailArray.toArray(new WaterDetail[this.detailArray.size()]);
-            setDataToTable(newArray);
+            Object[] rowData = new Object[]{
+                newData.date,
+                newData.tciIn,
+                newData.tciOut,
+                newData.temperature,
+                newData.nh3,
+                newData.no2,
+                newData.dosed,
+                false
+            };
+            model.addRow(rowData);
+            
+            this.dataTable.setModel(model);
+            model.fireTableDataChanged();
             
             this.dataTable.scrollRectToVisible(
                     this.dataTable.getCellRect(
@@ -585,6 +713,39 @@ public class MainJFrame extends javax.swing.JFrame {
 //            generateReticChart(newArray);
         }
     }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonAddReticDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddReticDataActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) this.jTableReticData.getModel();
+        
+        if (this.reticEntryArray.size() > 0) {
+            ReticEntry newData = new ReticEntry(new Date(), 0, 0, 0, 0);
+            this.reticEntryArray.add(newData);
+            
+            Object[] rowData = new Object[]{
+                newData.date,
+                newData.totalChlorine,
+                newData.temperature,
+                newData.nh3,
+                newData.no2,
+                newData.nitrificationPotentialIndicator
+            };
+            model.addRow(rowData);
+            
+            this.jTableReticData.setModel(model);
+            model.fireTableDataChanged();
+            
+            this.jTableReticData.scrollRectToVisible(
+                    this.jTableReticData.getCellRect(
+                            this.jTableReticData.getRowCount() - 1, 0, true
+                    )
+            );
+//            generateNitrificationChart(newArray);
+//            generateChloramineChart(newArray);
+//            generateForecastingChart(newArray);
+//            generateReticChart(newArray);
+        }
+    }//GEN-LAST:event_jButtonAddReticDataActionPerformed
 
     /**
      * @param args the command line arguments

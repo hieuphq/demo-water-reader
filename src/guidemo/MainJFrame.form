@@ -253,16 +253,16 @@
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="0">
-                        <Column editable="true" title="Date" type="java.lang.String"/>
+                        <Column editable="true" title="Date" type="java.lang.Object"/>
                         <Column editable="true" title="Total Chlorine" type="java.lang.Float"/>
                         <Column editable="true" title="Temperature" type="java.lang.Float"/>
                         <Column editable="true" title="NH3-N" type="java.lang.Float"/>
-                        <Column editable="true" title="Nitrification Potential Indicator" type="java.lang.Double"/>
+                        <Column editable="false" title="Nitrification Potential Indicator" type="java.lang.Double"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                        <Column maxWidth="-1" minWidth="250" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
                           <Renderer/>
@@ -300,6 +300,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddReticDataActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
