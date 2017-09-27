@@ -66,4 +66,12 @@ public class WaterDetail {
         String dateString = formatter.format(this.date);
         return dateString;
     }
+    
+    public String getDosed() {
+        if(this.dosed){
+            return "Yes";
+        }
+        
+        return "No";
+    }
 }
