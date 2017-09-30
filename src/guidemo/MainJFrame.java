@@ -5,6 +5,7 @@
  */
 package guidemo;
 
+import guidemo.helpers.ChartCreator;
 import guidemo.helpers.DateCellEditor;
 import guidemo.helpers.DateCellRender;
 import guidemo.helpers.DateTimeTableEditor;
@@ -481,109 +482,37 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void generateReticChart(ReticEntry[] data) {
-        // Create Chart
-        XYChart chart = new XYChartBuilder().width(800)
-                .height(600).title("Retic system behaviour")
-                .yAxisTitle("Nitrification Potential Indicator").xAxisTitle("Date").build();
-
-        // Customize Chart
-        chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
-        chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
-
-        // Series
-        List<Date> xData = new ArrayList<>();
-        List<Float> yNitrificationPotentialIndicator = new ArrayList<>();
-        List<Float> yNO2 = new ArrayList<>();
-
-        for (ReticEntry dt : data) {
-            xData.add(dt.date);
-            yNitrificationPotentialIndicator.add((float)dt.nitrificationPotentialIndicator);
-            yNO2.add(dt.no2);
-        }
-
-        chart.addSeries("Nitrification Potential Indicator", xData, yNitrificationPotentialIndicator);
-        chart.addSeries("NO2", xData, yNO2);
-
         // Show it
-        JPanel chartView = new XChartPanel<XYChart>(chart);
+        JPanel chartView = ChartCreator.generateReticChart(data);
         this.jPanelRetic.removeAll();
         this.jPanelRetic.add(chartView, BorderLayout.CENTER);
         this.jPanelRetic.validate();
         
-        JPanel chartViewFull = new XChartPanel<XYChart>(chart);
+        JPanel chartViewFull = ChartCreator.generateReticChart(data);
         this.jPanelReticFull.removeAll();
         this.jPanelReticFull.add(chartViewFull, BorderLayout.CENTER);
         this.jPanelReticFull.validate();
     }
 
     private void generateForecastingChart(WaterDetail[] data) {
-        // Create Chart
-        XYChart chart = new XYChartBuilder().width(800)
-                .height(600).title("Forecasting residual without interference")
-                .yAxisTitle("X").xAxisTitle("Date").build();
-
-        // Customize Chart
-        chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
-        chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
         
-        int index = data.length - 1;
-        
-        if (index < 0) {
-            return;
-        }
-        
-        PredictingWaterDetail[] predictingData = PredictingWaterDetail.calculateWaterDetail(data[index], 7);
-        
-        // Series
-        List<Date> xData = new ArrayList<>();
-        List<Double> ytciBRC = new ArrayList<>();
-        List<Double> ytci = new ArrayList<>();
-
-        for (PredictingWaterDetail dt : predictingData) {
-            xData.add(dt.date);
-            ytciBRC.add(dt.tclBRC);
-            ytci.add(dt.tcl);
-        }
-
-        chart.addSeries("TCl", xData, ytci);
-        chart.addSeries("TCl-BRC", xData, ytciBRC);
-
         // Show it
-        JPanel chartView = new XChartPanel<XYChart>(chart);
+        JPanel chartView = ChartCreator.generateForecastingChart(data);
         this.jPanelForecasting.removeAll();
         this.jPanelForecasting.add(chartView, BorderLayout.CENTER);
         this.jPanelForecasting.validate();
         
-        JPanel chartViewFull = new XChartPanel<XYChart>(chart);
+        JPanel chartViewFull = ChartCreator.generateForecastingChart(data);
         this.jPanelForecastingFull.removeAll();
         this.jPanelForecastingFull.add(chartViewFull, BorderLayout.CENTER);
         this.jPanelForecastingFull.validate();
     }
 
     private void generateChloramineChart(WaterDetail[] data) {
-        // Create Chart
-        XYChart chart = new XYChartBuilder().width(800)
-                .height(600).title("Chloramine decay behaviour")
-                .yAxisTitle("Chloramine Stability").xAxisTitle("Date").build();
-
-        // Customize Chart
-        chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
-        chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
-
-        // Series
-        List<Date> xData = new ArrayList<>();
-        List<Double> yKrt20 = new ArrayList<>();
-
-        for (WaterDetail dt : data) {
-            xData.add(dt.date);
-            yKrt20.add(dt.krt20);
-        }
-
-        chart.addSeries("KRT 20", xData, yKrt20);
 
         // Show it
-        JPanel chartView = new XChartPanel<XYChart>(chart);
-        JPanel chartViewFull = new XChartPanel<XYChart>(chart);
+        JPanel chartView = ChartCreator.generateChloramineChart(data);
+        JPanel chartViewFull = ChartCreator.generateChloramineChart(data);
         this.jPanelChrloramin.removeAll();
         this.jPanelChrloramin.add(chartView, BorderLayout.CENTER);
         this.jPanelChrloramin.validate();
@@ -591,45 +520,13 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelChloramineFull.removeAll();
         this.jPanelChloramineFull.add(chartViewFull, BorderLayout.CENTER);
         this.jPanelChloramineFull.validate();
-        
     }
 
     private void generateNitrificationChart(WaterDetail[] data) {
         // Create Chart
-        XYChart chart = new XYChartBuilder().width(800)
-                .height(600).title("Nitrification Potential within the reservoir")
-                .yAxisTitle("Nitrification Potential Indicator").xAxisTitle("Date").build();
-
-        // Customize Chart
-        chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Line);
-        chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
-
-        // Series
-        List<Date> xData = new ArrayList<>();
-        List<Float> yNo2 = new ArrayList<>();
-        List<Double> tcl = new ArrayList<>();
-        List<Float> tablet = new ArrayList<>();
-
-        for (WaterDetail dt : data) {
-            xData.add(dt.date);
-            tcl.add(dt.tclBRC);
-            if (dt.dosed == true) {
-                tablet.add((float)0.5);
-            }else {
-                tablet.add((float)0);
-            }
-            
-            yNo2.add(dt.no2);
-        }
-
-        chart.addSeries("NO2", xData, yNo2);
-        chart.addSeries("TCl-BRC", xData, tcl);
-        XYSeries seriesTablet = chart.addSeries("Tablet", xData, tablet);
-        seriesTablet.setXYSeriesRenderStyle(XYSeriesRenderStyle.Scatter);
-
-        // Show it
-        JPanel chartView = new XChartPanel<>(chart);
-        JPanel chartViewFull = new XChartPanel<>(chart);
+        JPanel chartView = ChartCreator.generateNitrificationPotentialChart(data);
+        JPanel chartViewFull = ChartCreator.generateNitrificationPotentialChart(data);
+                
         this.jPanelNitrification.removeAll();
         this.jPanelNitrification.add(chartView, BorderLayout.CENTER);
         this.jPanelNitrification.validate();
