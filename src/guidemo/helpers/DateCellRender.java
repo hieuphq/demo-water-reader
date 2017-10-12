@@ -15,7 +15,7 @@ import javax.swing.table.TableCellRenderer;
 
 /**
  *
- * @author hieuphan
+ * 
  */
 public class DateCellRender extends DefaultTableCellRenderer{
  
@@ -26,7 +26,8 @@ public class DateCellRender extends DefaultTableCellRenderer{
  
          if(value instanceof Date){
  
-             String strDate = new SimpleDateFormat("dd-MM-yyyy HH:mm").format((Date)value);
+             //String strDate = new SimpleDateFormat("dd-MM-yyyy HH:mm").format((Date)value);
+             String strDate = new SimpleDateFormat("dd-MM-yyyy").format((Date)value);
              this.setText(strDate);
          }
  

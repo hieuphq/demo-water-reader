@@ -10,7 +10,6 @@ import java.util.Date;
 
 /**
  *
- * @author hieuphan
  */
 public class ReticEntry {
     public Date date; // I - 8

@@ -9,34 +9,29 @@ import guidemo.models.PredictingWaterDetail;
 import guidemo.models.ReticEntry;
 import guidemo.models.WaterDetail;
 import java.awt.Color;
-import java.awt.Paint;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JPanel;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.Minute;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.block.BlockBorder;
-import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.title.LegendTitle;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 import org.knowm.xchart.XChartPanel;
@@ -46,7 +41,6 @@ import org.knowm.xchart.style.Styler;
 
 /**
  *
- * @author hieuphan
  */
 public class ChartCreator {
     static public JPanel generateNitrificationPotentialChart(WaterDetail[] data) {
@@ -56,6 +50,7 @@ public class ChartCreator {
         TimeSeries no2Series = new TimeSeries("NO2", Day.class);
         TimeSeries tclSeries = new TimeSeries("TCl-BRC", Day.class);
         TimeSeries tabletSeries = new TimeSeries("Tablet", Day.class);
+        
         // 0.2, 0.4, 2.00
         TimeSeries line02 = new TimeSeries("0.2", Day.class);
         TimeSeries line04 = new TimeSeries("0.4", Day.class);
@@ -90,8 +85,12 @@ public class ChartCreator {
         secondDataset.addSeries(no2Series);
         
         JFreeChart chart = ChartFactory.createTimeSeriesChart("Nitrification Potential within the reservoir", "Date", "Nitrification Potential Indicator", dataset);        
+        
+
         XYPlot plot = (XYPlot) chart.getPlot();
-        final NumberAxis axis2 = new NumberAxis("Nitrite-N");
+        final NumberAxis axis2 = new NumberAxis("Nitrite (mg-N/L)");
+        axis2.setRange(0.000,0.020);
+        axis2.setAutoTickUnitSelection(true);
         axis2.setAutoRangeIncludesZero(false);
         plot.setRangeAxis(1, axis2);
         plot.setDataset(1, secondDataset);
@@ -132,7 +131,9 @@ public class ChartCreator {
         chart.addLegend(lt);
         
         DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+        axis.setAutoTickUnitSelection(true);
+        axis.setVerticalTickLabels(true);
+        axis.setDateFormatOverride(new SimpleDateFormat("dd-MM-yy"));
         
         return new ChartPanel(chart);
     }
@@ -157,7 +158,9 @@ public class ChartCreator {
         JFreeChart chart = ChartFactory.createTimeSeriesChart("Chloramine decay behaviour", "Date", "Chloramine Stability", dataset);
         XYPlot plot = (XYPlot) chart.getPlot();
         DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+        axis.setAutoTickUnitSelection(true);
+        axis.setVerticalTickLabels(true);
+        axis.setDateFormatOverride(new SimpleDateFormat("dd-MM-yy"));
         
         List<String> removeList = Arrays.asList("004", "02");
         LegendItemCollection legendItemsOld = plot.getLegendItems();
@@ -227,7 +230,9 @@ public class ChartCreator {
         JFreeChart chart = ChartFactory.createTimeSeriesChart("Forecasting residual without interference", "Date", "Predicting Data", dataset);
         XYPlot plot = (XYPlot) chart.getPlot();
         DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+        axis.setAutoTickUnitSelection(true);
+        axis.setVerticalTickLabels(true);
+        axis.setDateFormatOverride(new SimpleDateFormat("dd-MM-yy"));
         
         List<String> removeList = Arrays.asList("01", "03", "106");
         LegendItemCollection legendItemsOld = plot.getLegendItems();
@@ -291,10 +296,14 @@ public class ChartCreator {
         JFreeChart chart = ChartFactory.createTimeSeriesChart("Retic system behaviour", "Date", "Nitrification Potential", dataset);
         XYPlot plot = (XYPlot) chart.getPlot();
         DateAxis axis = (DateAxis) plot.getDomainAxis();
-        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+        axis.setAutoTickUnitSelection(true);
+        axis.setVerticalTickLabels(true);
+        axis.setDateFormatOverride(new SimpleDateFormat("dd-MM-yy"));
         
         final NumberAxis axis2 = new NumberAxis("NO2-N");
         axis2.setAutoRangeIncludesZero(false);
+        axis2.setRange(0.000,0.020);
+
         plot.setRangeAxis(1, axis2);
         plot.setDataset(1, secondDataset);
         plot.mapDatasetToRangeAxis(1, 1);

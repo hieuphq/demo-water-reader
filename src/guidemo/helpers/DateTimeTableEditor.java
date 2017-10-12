@@ -7,7 +7,7 @@ package guidemo.helpers;
 
 /**
  *
- * @author hieuphan
+ * 
  */
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;

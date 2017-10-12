@@ -7,7 +7,7 @@ package guidemo.helpers;
 
 /**
  *
- * @author hieuphan
+ * 
  */
 import java.awt.Component;
 import java.util.Calendar;

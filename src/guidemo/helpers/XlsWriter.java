@@ -25,7 +25,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
- * @author hieuphan
  */
 public class XlsWriter {
     public static boolean writeReticData(

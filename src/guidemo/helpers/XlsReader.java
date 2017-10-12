@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 /**
  *
- * @author hieuphan
  */
 public class XlsReader {
 
