@@ -15,6 +15,7 @@ import guidemo.models.PredictingWaterDetail;
 import guidemo.models.ReticEntry;
 import guidemo.models.WaterDetail;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
@@ -56,6 +57,7 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
         initLogo();
         initTableEditor();
+        initWarningLabels();
     }
 
     /**
@@ -90,12 +92,12 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelNitrificationFull = new javax.swing.JPanel();
         jPanelChloramineFull = new javax.swing.JPanel();
         jPanelChloramineFullChart = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanelChloramineFullLabel = new javax.swing.JLabel();
         jPanelForecastingFull = new javax.swing.JPanel();
         jPanelForecastingFullChart = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanelForecastingFullLabel = new javax.swing.JLabel();
         jPanelReticFull = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        jPanelReticFullLabel = new javax.swing.JLabel();
         jPanelReticFullChart = new javax.swing.JPanel();
         jPanelLogo = new javax.swing.JPanel();
         jLabelLogo = new javax.swing.JLabel();
@@ -268,7 +270,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jPanelChloramineFullChart.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setText("jLabel2");
+        jPanelChloramineFullLabel.setText("jLabel2");
 
         javax.swing.GroupLayout jPanelChloramineFullLayout = new javax.swing.GroupLayout(jPanelChloramineFull);
         jPanelChloramineFull.setLayout(jPanelChloramineFullLayout);
@@ -276,7 +278,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanelChloramineFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelChloramineFullLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(jPanelChloramineFullLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanelChloramineFullLayout.createSequentialGroup()
                 .addComponent(jPanelChloramineFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -288,7 +290,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(jPanelChloramineFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(jPanelChloramineFullLabel)
                 .addContainerGap())
         );
 
@@ -296,7 +298,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jPanelForecastingFullChart.setLayout(new java.awt.BorderLayout());
 
-        jLabel3.setText("jLabel3");
+        jPanelForecastingFullLabel.setText("jLabel3");
 
         javax.swing.GroupLayout jPanelForecastingFullLayout = new javax.swing.GroupLayout(jPanelForecastingFull);
         jPanelForecastingFull.setLayout(jPanelForecastingFullLayout);
@@ -306,7 +308,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelForecastingFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelForecastingFullLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jPanelForecastingFullLabel)
                         .addGap(0, 1328, Short.MAX_VALUE))
                     .addComponent(jPanelForecastingFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -317,13 +319,13 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelForecastingFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addComponent(jPanelForecastingFullLabel)
                 .addContainerGap())
         );
 
         reticDataEntryTable.addTab("Forecasting residual", jPanelForecastingFull);
 
-        jLabel4.setText("jLabel4");
+        jPanelReticFullLabel.setText("jLabel4");
 
         jPanelReticFullChart.setLayout(new java.awt.BorderLayout());
 
@@ -335,7 +337,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelReticFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelReticFullLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jPanelReticFullLabel)
                         .addGap(0, 1328, Short.MAX_VALUE))
                     .addComponent(jPanelReticFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -346,7 +348,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelReticFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(jPanelReticFullLabel)
                 .addContainerGap())
         );
 
@@ -522,6 +524,12 @@ public class MainJFrame extends javax.swing.JFrame {
         
     }
     
+    private void initWarningLabels() {
+        jPanelChloramineFullLabel.setText("");
+        jPanelForecastingFullLabel.setText("");
+        jPanelReticFullLabel.setText("");
+    }
+    
     private void setDataToTable(WaterDetail[] data) {
         DefaultTableModel model = (DefaultTableModel) this.dataTable.getModel();
 
@@ -595,6 +603,32 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelReticFullChart.removeAll();
         this.jPanelReticFullChart.add(chartViewFull, BorderLayout.CENTER);
         this.jPanelReticFullChart.validate();
+        
+        this.setReticWarningText(data);
+    }
+    
+    private void setReticWarningText(ReticEntry[] data) {
+        boolean isWarning = false;
+        if (data.length > 0) {
+            ReticEntry last = data[data.length - 1];
+            double val = last.nitrificationPotentialIndicator;
+            
+            if(val >= 0.2 && val <= 0.4) {
+                isWarning = true;
+            } else {
+                isWarning = false;
+            }
+        } else {
+            isWarning = true;
+        }
+        
+        if(isWarning){
+            this.jPanelReticFullLabel.setText("0.2 <= value <= 0.4");
+            this.jPanelReticFullLabel.setForeground(Color.red);
+        } else {
+            this.jPanelReticFullLabel.setText("No warning");
+            this.jPanelReticFullLabel.setForeground(Color.blue);
+        }
     }
 
     private void generateForecastingChart(WaterDetail[] data) {
@@ -612,7 +646,6 @@ public class MainJFrame extends javax.swing.JFrame {
     }
 
     private void generateChloramineChart(WaterDetail[] data) {
-
         // Show it
         JPanel chartView = ChartCreator.generateChloramineChart(data);
         JPanel chartViewFull = ChartCreator.generateChloramineChart(data);
@@ -623,6 +656,32 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelChloramineFullChart.removeAll();
         this.jPanelChloramineFullChart.add(chartViewFull, BorderLayout.CENTER);
         this.jPanelChloramineFullChart.validate();
+        
+        this.setChloramineWarningText(data);
+    }
+    
+    private void setChloramineWarningText(WaterDetail[] data) {
+        boolean isWarning = false;
+        if (data.length > 0) {
+            WaterDetail last = data[data.length - 1];
+            double val = last.krt20;
+            
+            if(val >= 0.2 && val <= 0.4) {
+                isWarning = true;
+            } else {
+                isWarning = false;
+            }
+        } else {
+            isWarning = true;
+        }
+        
+        if (isWarning){
+            this.jPanelChloramineFullLabel.setText("0.2 <= value <= 0.4");
+            this.jPanelChloramineFullLabel.setForeground(Color.red);
+        } else {
+            this.jPanelChloramineFullLabel.setText("No warning");
+            this.jPanelChloramineFullLabel.setForeground(Color.blue);
+        }
     }
 
     private void generateNitrificationChart(WaterDetail[] data) {
@@ -637,6 +696,31 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelNitrificationFull.removeAll();
         this.jPanelNitrificationFull.add(chartViewFull, BorderLayout.CENTER);
         this.jPanelNitrificationFull.validate();
+        
+        this.setNitritionWarningText(data);
+    }
+    
+    private void setNitritionWarningText(WaterDetail[] data) {
+        
+        boolean isWarning = false;
+        if (data.length > 0) {
+            WaterDetail last = data[data.length - 1];
+            double val = last.tclBRC;
+            
+            if (val >= 0.2 && val <= 0.4) {
+                isWarning = true;
+            } else {
+                isWarning = false;
+            }
+        } else {
+            isWarning = true;
+        }
+        
+        if (isWarning){
+            // TODO:
+        } else {
+            
+        }
     }
 
     private String currDirectoryPath;
@@ -822,25 +906,25 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSaveRetic;
     private javax.swing.JButton jButtonWaterSave;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelChloramineFull;
     private javax.swing.JPanel jPanelChloramineFullChart;
+    private javax.swing.JLabel jPanelChloramineFullLabel;
     private javax.swing.JPanel jPanelChrloramin;
     private javax.swing.JPanel jPanelForecasting;
     private javax.swing.JPanel jPanelForecastingFull;
     private javax.swing.JPanel jPanelForecastingFullChart;
+    private javax.swing.JLabel jPanelForecastingFullLabel;
     private javax.swing.JPanel jPanelLogo;
     private javax.swing.JPanel jPanelNitrification;
     private javax.swing.JPanel jPanelNitrificationFull;
     private javax.swing.JPanel jPanelRetic;
     private javax.swing.JPanel jPanelReticFull;
     private javax.swing.JPanel jPanelReticFullChart;
+    private javax.swing.JLabel jPanelReticFullLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableReticData;
