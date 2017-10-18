@@ -95,6 +95,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelForecastingFullChart = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanelReticFull = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanelReticFullChart = new javax.swing.JPanel();
         jPanelLogo = new javax.swing.JPanel();
         jLabelLogo = new javax.swing.JLabel();
 
@@ -321,7 +323,33 @@ public class MainJFrame extends javax.swing.JFrame {
 
         reticDataEntryTable.addTab("Forecasting residual", jPanelForecastingFull);
 
-        jPanelReticFull.setLayout(new java.awt.BorderLayout());
+        jLabel4.setText("jLabel4");
+
+        jPanelReticFullChart.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanelReticFullLayout = new javax.swing.GroupLayout(jPanelReticFull);
+        jPanelReticFull.setLayout(jPanelReticFullLayout);
+        jPanelReticFullLayout.setHorizontalGroup(
+            jPanelReticFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelReticFullLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelReticFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelReticFullLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 1328, Short.MAX_VALUE))
+                    .addComponent(jPanelReticFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelReticFullLayout.setVerticalGroup(
+            jPanelReticFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelReticFullLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelReticFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addContainerGap())
+        );
+
         reticDataEntryTable.addTab("Retic system behaviour", jPanelReticFull);
 
         javax.swing.GroupLayout jPanelLogoLayout = new javax.swing.GroupLayout(jPanelLogo);
@@ -564,9 +592,9 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelRetic.validate();
         
         JPanel chartViewFull = ChartCreator.generateReticChart(data);
-        this.jPanelReticFull.removeAll();
-        this.jPanelReticFull.add(chartViewFull, BorderLayout.CENTER);
-        this.jPanelReticFull.validate();
+        this.jPanelReticFullChart.removeAll();
+        this.jPanelReticFullChart.add(chartViewFull, BorderLayout.CENTER);
+        this.jPanelReticFullChart.validate();
     }
 
     private void generateForecastingChart(WaterDetail[] data) {
@@ -796,6 +824,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -811,6 +840,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelNitrificationFull;
     private javax.swing.JPanel jPanelRetic;
     private javax.swing.JPanel jPanelReticFull;
+    private javax.swing.JPanel jPanelReticFullChart;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableReticData;
