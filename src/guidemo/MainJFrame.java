@@ -92,6 +92,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelChloramineFullChart = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanelForecastingFull = new javax.swing.JPanel();
+        jPanelForecastingFullChart = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jPanelReticFull = new javax.swing.JPanel();
         jPanelLogo = new javax.swing.JPanel();
         jLabelLogo = new javax.swing.JLabel();
@@ -290,7 +292,33 @@ public class MainJFrame extends javax.swing.JFrame {
 
         reticDataEntryTable.addTab("Chloramine Stability", jPanelChloramineFull);
 
-        jPanelForecastingFull.setLayout(new java.awt.BorderLayout());
+        jPanelForecastingFullChart.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setText("jLabel3");
+
+        javax.swing.GroupLayout jPanelForecastingFullLayout = new javax.swing.GroupLayout(jPanelForecastingFull);
+        jPanelForecastingFull.setLayout(jPanelForecastingFullLayout);
+        jPanelForecastingFullLayout.setHorizontalGroup(
+            jPanelForecastingFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelForecastingFullLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelForecastingFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelForecastingFullLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 1328, Short.MAX_VALUE))
+                    .addComponent(jPanelForecastingFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelForecastingFullLayout.setVerticalGroup(
+            jPanelForecastingFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelForecastingFullLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelForecastingFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addContainerGap())
+        );
+
         reticDataEntryTable.addTab("Forecasting residual", jPanelForecastingFull);
 
         jPanelReticFull.setLayout(new java.awt.BorderLayout());
@@ -550,9 +578,9 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelForecasting.validate();
         
         JPanel chartViewFull = ChartCreator.generateForecastingChart(data);
-        this.jPanelForecastingFull.removeAll();
-        this.jPanelForecastingFull.add(chartViewFull, BorderLayout.CENTER);
-        this.jPanelForecastingFull.validate();
+        this.jPanelForecastingFullChart.removeAll();
+        this.jPanelForecastingFullChart.add(chartViewFull, BorderLayout.CENTER);
+        this.jPanelForecastingFullChart.validate();
     }
 
     private void generateChloramineChart(WaterDetail[] data) {
@@ -767,6 +795,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonWaterSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -776,6 +805,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelChrloramin;
     private javax.swing.JPanel jPanelForecasting;
     private javax.swing.JPanel jPanelForecastingFull;
+    private javax.swing.JPanel jPanelForecastingFullChart;
     private javax.swing.JPanel jPanelLogo;
     private javax.swing.JPanel jPanelNitrification;
     private javax.swing.JPanel jPanelNitrificationFull;
