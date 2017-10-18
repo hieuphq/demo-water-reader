@@ -90,6 +90,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelForecasting = new javax.swing.JPanel();
         jPanelRetic = new javax.swing.JPanel();
         jPanelNitrificationFull = new javax.swing.JPanel();
+        jPanelNitrificationFullChart = new javax.swing.JPanel();
+        jPanelNitrificationFullLabel = new javax.swing.JLabel();
         jPanelChloramineFull = new javax.swing.JPanel();
         jPanelChloramineFullChart = new javax.swing.JPanel();
         jPanelChloramineFullLabel = new javax.swing.JLabel();
@@ -265,7 +267,33 @@ public class MainJFrame extends javax.swing.JFrame {
 
         reticDataEntryTable.addTab("Diagrams", jPanel6);
 
-        jPanelNitrificationFull.setLayout(new java.awt.BorderLayout());
+        jPanelNitrificationFullChart.setLayout(new java.awt.BorderLayout());
+
+        jPanelNitrificationFullLabel.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanelNitrificationFullLayout = new javax.swing.GroupLayout(jPanelNitrificationFull);
+        jPanelNitrificationFull.setLayout(jPanelNitrificationFullLayout);
+        jPanelNitrificationFullLayout.setHorizontalGroup(
+            jPanelNitrificationFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelNitrificationFullLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelNitrificationFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelNitrificationFullLayout.createSequentialGroup()
+                        .addComponent(jPanelNitrificationFullLabel)
+                        .addGap(0, 1328, Short.MAX_VALUE))
+                    .addComponent(jPanelNitrificationFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelNitrificationFullLayout.setVerticalGroup(
+            jPanelNitrificationFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNitrificationFullLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelNitrificationFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelNitrificationFullLabel)
+                .addContainerGap())
+        );
+
         reticDataEntryTable.addTab("Nitrification Potential Indicator", jPanelNitrificationFull);
 
         jPanelChloramineFullChart.setLayout(new java.awt.BorderLayout());
@@ -278,11 +306,13 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanelChloramineFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelChloramineFullLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelChloramineFullLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanelChloramineFullLayout.createSequentialGroup()
-                .addComponent(jPanelChloramineFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(jPanelChloramineFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelChloramineFullLayout.createSequentialGroup()
+                        .addComponent(jPanelChloramineFullChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanelChloramineFullLayout.createSequentialGroup()
+                        .addComponent(jPanelChloramineFullLabel)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanelChloramineFullLayout.setVerticalGroup(
             jPanelChloramineFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -479,6 +509,11 @@ public class MainJFrame extends javax.swing.JFrame {
             if(column != -1) {
                 wd.calculateValue();
                 this.detailArray.set(row, wd);
+                
+                if (row == this.detailArray.size() - 1) {
+                    this.setChloramineWarningText((WaterDetail[]) this.detailArray.toArray());
+                    this.setNitritionWarningText((WaterDetail[]) this.detailArray.toArray());
+                }
             }
         });
         
@@ -519,6 +554,10 @@ public class MainJFrame extends javax.swing.JFrame {
             if(column != -1){
                 re.calculateValue();
                 this.reticEntryArray.set(row, re);
+                
+                if (row == this.reticEntryArray.size() - 1) {
+                    this.setReticWarningText((ReticEntry[]) this.reticEntryArray.toArray());
+                }
             }
         });
         
@@ -528,6 +567,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelChloramineFullLabel.setText("");
         jPanelForecastingFullLabel.setText("");
         jPanelReticFullLabel.setText("");
+        jPanelNitrificationFullLabel.setText("");
     }
     
     private void setDataToTable(WaterDetail[] data) {
@@ -550,8 +590,6 @@ public class MainJFrame extends javax.swing.JFrame {
                 dt.krt,
                 dt.krt20,
                 dt.dosed,
-                
-               
                 false
             });
         }
@@ -693,9 +731,9 @@ public class MainJFrame extends javax.swing.JFrame {
         this.jPanelNitrification.add(chartView, BorderLayout.CENTER);
         this.jPanelNitrification.validate();
         
-        this.jPanelNitrificationFull.removeAll();
-        this.jPanelNitrificationFull.add(chartViewFull, BorderLayout.CENTER);
-        this.jPanelNitrificationFull.validate();
+        this.jPanelNitrificationFullChart.removeAll();
+        this.jPanelNitrificationFullChart.add(chartViewFull, BorderLayout.CENTER);
+        this.jPanelNitrificationFullChart.validate();
         
         this.setNitritionWarningText(data);
     }
@@ -717,9 +755,11 @@ public class MainJFrame extends javax.swing.JFrame {
         }
         
         if (isWarning){
-            // TODO:
+            this.jPanelNitrificationFullLabel.setText("0.2 <= value <= 0.4");
+            this.jPanelNitrificationFullLabel.setForeground(Color.red);
         } else {
-            
+            this.jPanelNitrificationFullLabel.setText("No warning");
+            this.jPanelNitrificationFullLabel.setForeground(Color.blue);
         }
     }
 
@@ -777,8 +817,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 newData.temperature,
                 newData.nh3,
                 newData.no2,
+                newData.krt,
+                newData.krt20,
                 newData.dosed,
-                false
             };
             model.addRow(rowData);
             
@@ -921,6 +962,8 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelLogo;
     private javax.swing.JPanel jPanelNitrification;
     private javax.swing.JPanel jPanelNitrificationFull;
+    private javax.swing.JPanel jPanelNitrificationFullChart;
+    private javax.swing.JLabel jPanelNitrificationFullLabel;
     private javax.swing.JPanel jPanelRetic;
     private javax.swing.JPanel jPanelReticFull;
     private javax.swing.JPanel jPanelReticFullChart;
