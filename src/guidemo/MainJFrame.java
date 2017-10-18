@@ -118,11 +118,11 @@ public class MainJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "TCI_in", "TCLI_out", "Temp", "NH3-N", "NO2-N", "krt", "krt20", "Tablet Dosed", "Selected"
+                "Date", "TCI_in", "TCLI_out", "Temp", "NH3-N", "NO2-N", "Krt", "Krt20", "Tablet Dosed"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Object.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class
             };
 
             public Class getColumnClass(int columnIndex) {
